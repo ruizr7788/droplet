@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous">
+    <link rel="icon" href="/droplet-icon.ee8ad86f.png">
+    <link rel="stylesheet" href="/index.b2625c6b.css">
+    <script src="/index.e37f48ea.js" defer=""></script>
+    <title>Droplet</title>
+  </head>
+  <body>
+    <div id="droplet__container">
+      <section id="header__container">
+        <!-- get time and change "#greeting__message" to goodmorning, good afternoon, or good evening accordingly-->
+        <h6 id="greeting" class="dark--grey">
+          <span id="greeting__message">Goodmorning</span>, Welcome to Droplet
+        </h6>
+        <!-- remember to prevent default on submit & to read value only after user has submitted -->
+        <form id="search__container" class="dark--grey">
+          <input type="text" id="search__query" placeholder="Search for city or zip">
+        </form>
+        <h6 class="location dark--grey">East Wenatchee, Washington</h6>
+      </section>
+      <section id="main__container">
+        <div id="weather__report--container" class="radius--20">
+          <div id="weather__report--header" class="main--header">
+            <i class="far fa-sun sun-style"></i>
+            <span class="main--white">Weather</span><br>
+            <span class="secondary--white">What's the weather</span>
+          </div>
+          <div id="weather__report" class="main--info">
+            <span class="current--weather current--weather-report main--white">23&deg;F</span><br>
+            <span class="current--weather-description secondary--white">Partly Cloudy</span>
+          </div>
+        </div>
+        <div id="air__quality--container" class="radius--20 r">
+          <div id="air__quality--header" class="main--header">
+            <i class="far fa-sun sun-style"></i>
+            <span class="main--white">Air quality</span><br>
+            <span class="secondary--white">Main pollution:&nbsp;PM&nbsp;<span id="main__pollution">2.5</span></span>
+          </div>
+          <div id="wind" class="main--info">
+            <span id="wind__speed" class="main--white">12&nbsp;mph&nbsp;<span id="wind__direction" class="secondary--white">West wind</span></span>
+          </div>
+        </div>
+      </section>
+      <section id="temperature__container">
+        <h2>How's the temperature today?</h2>
+        <!-- display flex -->
+        <div id="temperature__display--container">
+          <!-- all with display flex direction column -->
+          <!-- morning, afternoon, and evening have border right -->
+          <div class="temperature--display-card card--one">
+            <i class="fas fa-sun sun-style"></i>
+            <span>
+              <span id="morning__temp" class="temperature--portion-day">17</span>&deg;&nbsp;F
+            </span>
+
+            <span class="portion--day">Morning</span>
+          </div>
+          <div class="temperature--display-card card--two">
+            <i class="fas fa-sun sun-style"></i>
+            <span>
+              <span id="afternoon__temp" class="temperature--portion-day">17</span>&deg;&nbsp;F
+            </span>
+
+            <span class="portion--day">Afternoon</span>
+          </div>
+          <div class="temperature--display-card card--three">
+            <i class="fas fa-sun sun-style"></i>
+            <span>
+              <span id="evening__temp" class="temperature--portion-day">17</span>&deg;&nbsp;F
+            </span>
+
+            <span class="portion--day">Evening</span>
+          </div>
+          <div class="temperature--display-card card--four">
+            <i class="fas fa-moon moon--style"></i>
+            <span>
+              <span id="night__temp" class="temperature--portion-day">17</span>&deg;&nbsp;F
+            </span>
+
+            <span class="portion--day">Night</span>
+          </div>
+        </div>
+      </section>
+      <!-- display of flex direction column justifycontent left -->
+      <section id="tomorrow__container" class="radius--20">
+        <div id="tomorrow__header">
+          <h6 class="secondary--white">Tomorrow</h6>
+          <h3 class="location tomorrow--location main--white">
+            East Wenatchee, Washington
+          </h3>
+        </div>
+        <div id="tomorrow__info">
+          <span id="tomorrow__temp" class="main--white">23&deg;F</span><br>
+          <span id="tomorrow__description" class="secondary--white">Rainy</span>
+        </div>
+      </section>
+
+      <div id="UV__container" class="radius--20 uv--main">
+        <span class="uv--main-info"><i class="far fa-sun sun-style"></i>&nbsp;<span id="uv__index" class="main--white">2&nbsp;UV</span>&nbsp;<span class="uv--index-severity uv--index-box main--white">Moderate</span></span><br>
+        <span class="secondary--white uv--description"><span class="uv__index_severity">Moderate</span>&nbsp;risk to UV
+          rays</span>
+      </div>
+
+      <section id="weather__predictions--container">
+        <h1>Weather Prediction</h1>
+        <div id="next__day--container" class="prediction--card radius--20">
+          <div id="next__day--header" class="prediction--header">
+            <i class="far fa-sun sun-style"></i>
+            <span class="main--black-text">Tomorrow</span><br>
+            <span id="next__day--description" class="main--black-text">Cloudy</span>
+          </div>
+          <div class="tomorrow--high-low high--low main--purple prediction--info">
+            <span class="high">23&deg;</span>/<span class="low">17&deg;</span>
+          </div>
+        </div>
+        <div id="day__after--next-container" class="prediction--card radius--20">
+          <div id="day__after--next-header" class="prediction--header">
+            <i class="far fa-sun sun-style"></i>
+            <span class="main--black-text">+2 Days</span><br>
+            <span id="day__after--next-description" class="main--black-text">Cloudy</span>
+          </div>
+          <div class="day--after-high-low high--low main--purple prediction--info">
+            <span class="high">23&deg;</span>/<span class="low">17&deg;</span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer id="footer__container">
+      <p>&copy;&nbsp;Copyright by Rafael Ruiz, Don't claim as your own.</p>
+    </footer>
+  </body>
+</html>
