@@ -25,7 +25,7 @@ export const state = {
 
 export const setState = async function (query) {
   const data = await getJSON(
-    ` http://api.weatherapi.com/v1/forecast.json?key=29e0186ae9ac4bc18c444525220402&q=${query}&days=7&aqi=yes`
+    ` https://api.weatherapi.com/v1/forecast.json?key=29e0186ae9ac4bc18c444525220402&q=${query}&days=7&aqi=yes`
   );
 
   //-----STORING LOCATION-----
