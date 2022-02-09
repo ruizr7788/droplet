@@ -1,2 +1,2 @@
 # droplet
-Basic weather app using weather API using the MVC architecture and parcel bundler
+Basic weather app using a weather API, the MVC architecture, and parcel bundler
