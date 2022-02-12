@@ -18,10 +18,11 @@
   <body>
     <div id="droplet__container">
       <section id="header__container">
+        <!-- <div class="spinner"></div> -->
         <!-- get time and change "#greeting__message" to goodmorning, good afternoon, or good evening accordingly-->
-        <h6 id="greeting" class="dark--grey">
+        <!-- <h6 id="greeting" class="dark--grey">
           <span id="greeting__message">Goodmorning</span>, Welcome to Droplet
-        </h6>
+        </h6> -->
         <!-- remember to prevent default on submit & to read value only after user has submitted -->
         <form id="search__container" class="dark--grey">
           <input
@@ -30,9 +31,14 @@
             placeholder="Search for city or zip"
           />
         </form>
-        <h6 class="location dark--grey">East Wenatchee, Washington</h6>
+        <h6 class="location dark--grey hidden--text">
+          East Wenatchee, Washington
+        </h6>
+        <div id="error__message--header">
+          <h3></h3>
+        </div>
       </section>
-      <section id="main__container">
+      <section id="main__container" class="hidden--section">
         <div id="weather__report--container" class="radius--20">
           <div id="weather__report--header" class="main--header">
             <i class="far fa-sun sun-style"></i>
@@ -69,7 +75,7 @@
           </div>
         </div>
       </section>
-      <section id="temperature__container">
+      <section id="temperature__container" class="hidden--section">
         <h2>How's the temperature today?</h2>
         <!-- display flex -->
         <div id="temperature__display--container">
@@ -115,7 +121,7 @@
         </div>
       </section>
       <!-- display of flex direction column justifycontent left -->
-      <section id="tomorrow__container" class="radius--20">
+      <section id="tomorrow__container" class="radius--20 hidden--section">
         <div id="tomorrow__header">
           <h6 class="secondary--white">Tomorrow</h6>
           <h3 class="location tomorrow--location main--white">
@@ -128,7 +134,7 @@
         </div>
       </section>
 
-      <div id="UV__container" class="radius--20 uv--main">
+      <div id="UV__container" class="radius--20 uv--main hidden--section">
         <span class="uv--main-info"
           ><i class="far fa-sun sun-style"></i>&nbsp;<span
             id="uv__index"
@@ -144,7 +150,7 @@
         >
       </div>
 
-      <section id="weather__predictions--container">
+      <section id="weather__predictions--container" class="hidden--section">
         <h1>Weather Prediction</h1>
         <div id="next__day--container" class="prediction--card radius--20">
           <div id="next__day--header" class="prediction--header">

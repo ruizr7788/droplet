@@ -23,83 +23,113 @@ export const state = {
   secondDay: {},
 };
 
+const timeout5 = function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject("Request timed out");
+    }, 5000);
+  });
+};
+
 export const setState = async function (query) {
-  const data = await getJSON(
-    ` https://api.weatherapi.com/v1/forecast.json?key=29e0186ae9ac4bc18c444525220402&q=${query}&days=7&aqi=yes`
-  );
+  try {
+    const data = await Promise.race([
+      getJSON(
+        ` https://api.weatherapi.com/v1/forecast.json?key=29e0186ae9ac4bc18c444525220402&q=${query}&days=7&aqi=yes`,
+        query
+      ),
+      timeout5(),
+    ]);
 
-  //-----STORING LOCATION-----
-  state.location.name = data.location.name;
-  state.location.region = data.location.region;
+    //-----STORING LOCATION-----
+    state.location.name = data.location.name;
+    state.location.region = data.location.region;
 
-  //-----STORING INFO FOR BLUE CARDS-----
-  state.currentWeather.feelsLike = data.current.feelslike_f;
-  state.currentWeather.description = data.current.condition.text;
-  const windDir = data.current.wind_dir.split("");
-  if (windDir[0] == "N") state.currentWeather.windDirection = "North Wind";
-  if (windDir[0] == "E") state.currentWeather.windDirection = "East Wind";
-  if (windDir[0] == "S") state.currentWeather.windDirection = "South Wind";
-  if (windDir[0] == "W") state.currentWeather.windDirection = "West Wind";
+    //-----STORING INFO FOR BLUE CARDS-----
+    state.currentWeather.feelsLike = data.current.feelslike_f;
+    state.currentWeather.description = data.current.condition.text;
+    const windDir = data.current.wind_dir.split("");
+    if (windDir[0] == "N") state.currentWeather.windDirection = "North Wind";
+    if (windDir[0] == "E") state.currentWeather.windDirection = "East Wind";
+    if (windDir[0] == "S") state.currentWeather.windDirection = "South Wind";
+    if (windDir[0] == "W") state.currentWeather.windDirection = "West Wind";
 
-  state.currentWeather.windSpeed = data.current.wind_mph;
-  //   state.currentWeather.uvIndex = data.current.uv;
-  const uvIndex = data.current.uv;
+    state.currentWeather.windSpeed = data.current.wind_mph;
+    //   state.currentWeather.uvIndex = data.current.uv;
+    const uvIndex = data.current.uv;
 
-  switch (uvIndex) {
-    case 1 || 2:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "safe";
-      state.currentWeather.uvDescriptor = "No";
-      break;
-    case 3 || 5:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "moderate";
-      state.currentWeather.uvDescriptor = "Moderate";
-      break;
-    case 6 || 7:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "moderate";
-      state.currentWeather.uvDescriptor = "Moderate";
+    switch (uvIndex) {
+      case 1:
+      case 2:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "safe";
+        state.currentWeather.uvDescriptor = "No";
+        state.currentWeather.uvColor = "#ADE25D";
+        break;
+      case 3:
+      case 4:
+      case 5:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "moderate";
+        state.currentWeather.uvDescriptor = "Moderate";
+        state.currentWeather.uvColor = "#FCEC52";
+        break;
+      case 6:
+      case 7:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "moderate";
+        state.currentWeather.uvDescriptor = "Moderate";
+        state.currentWeather.uvColor = "#FE5E41";
 
-      break;
-    case 8 || 10:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "dangerous";
-      state.currentWeather.uvDescriptor = "High";
-      break;
-    case 11:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "hazardous";
-      state.currentWeather.uvDescriptor = "Extreme";
-      break;
-    default:
-      state.currentWeather.uvIndex = uvIndex;
-      state.currentWeather.uvSeverity = "hazardous";
-      state.currentWeather.uvDescriptor = "Extreme";
+        break;
+      case 8:
+      case 9:
+      case 10:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "dangerous";
+        state.currentWeather.uvDescriptor = "High";
+        state.currentWeather.uvColor = "#E71D36";
+        break;
+      case 11:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "hazardous";
+        state.currentWeather.uvDescriptor = "Extreme";
+        state.currentWeather.uvColor = "#6D51C8";
+        break;
+      default:
+        state.currentWeather.uvIndex = uvIndex;
+        state.currentWeather.uvSeverity = "hazardous";
+        state.currentWeather.uvDescriptor = "Extreme";
+        state.currentWeather.uvColor = "#6D51C8";
+    }
+
+    state.currentWeather.airQualityPM = data.current.air_quality.pm2_5;
+
+    //-----STORING MORNING, AFTERNOON, EVENING & NIGHT TEMPS-----
+    state.currentWeather.morningTemp =
+      data.forecast.forecastday[0].hour[6].temp_f;
+    state.currentWeather.afternoonTemp =
+      data.forecast.forecastday[0].hour[12].temp_f;
+    state.currentWeather.eveningTemp =
+      data.forecast.forecastday[0].hour[18].temp_f;
+    state.currentWeather.nightTemp =
+      data.forecast.forecastday[0].hour[23].temp_f;
+
+    //-----STORING TOMORROW TEMP-----
+    state.tomorrowWeather.temp = data.forecast.forecastday[1].day.avgtemp_f;
+    state.tomorrowWeather.description =
+      data.forecast.forecastday[1].day.condition.text;
+    state.tomorrowWeather.high = data.forecast.forecastday[1].day.maxtemp_f;
+    state.tomorrowWeather.low = data.forecast.forecastday[1].day.mintemp_f;
+
+    //-----STORING +2 DAY INFO-----
+    state.secondDay.description =
+      data.forecast.forecastday[2].day.condition.text;
+    state.secondDay.high = data.forecast.forecastday[2].day.maxtemp_f;
+    state.secondDay.low = data.forecast.forecastday[2].day.mintemp_f;
+  } catch (err) {
+    throw new Error(err.message);
   }
-
-  state.currentWeather.airQualityPM = data.current.air_quality.pm2_5;
-
-  //-----STORING MORNING, AFTERNOON, EVENING & NIGHT TEMPS-----
-  state.currentWeather.morningTemp =
-    data.forecast.forecastday[0].hour[6].temp_f;
-  state.currentWeather.afternoonTemp =
-    data.forecast.forecastday[0].hour[12].temp_f;
-  state.currentWeather.eveningTemp =
-    data.forecast.forecastday[0].hour[18].temp_f;
-  state.currentWeather.nightTemp = data.forecast.forecastday[0].hour[23].temp_f;
-
-  //-----STORING TOMORROW TEMP-----
-  state.tomorrowWeather.temp = data.forecast.forecastday[1].day.avgtemp_f;
-  state.tomorrowWeather.description =
-    data.forecast.forecastday[1].day.condition.text;
-  state.tomorrowWeather.high = data.forecast.forecastday[1].day.maxtemp_f;
-  state.tomorrowWeather.low = data.forecast.forecastday[1].day.mintemp_f;
-
-  //-----STORING +2 DAY INFO-----
-  state.secondDay.description = data.forecast.forecastday[2].day.condition.text;
-  state.secondDay.high = data.forecast.forecastday[2].day.maxtemp_f;
-  state.secondDay.low = data.forecast.forecastday[2].day.mintemp_f;
 };
 
 export const resetState = function () {
